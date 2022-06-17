@@ -1,0 +1,199 @@
+#include<windows.h>
+
+#include<gl/Gl.h>
+
+#include<gl/Glug.h>
+
+#include<gl/Glut.h>
+
+Void axis(double length)
+
+{
+
+glPushMatrix();
+
+glBegin(GL-LINES);
+
+glVertex3d(0,0,0);
+
+glVertex3d(0,0,length);
+
+glEnd();
+
+glTranslated(0,0,length-0.2);
+
+glutWireCone(0.04,0.2,12,9);
+
+glPopMatrix();
+
+}
+
+Void displayWire(void)
+
+{
+
+glMatrixMode(GL_PROJECTION);
+
+glLoadIdentity();
+
+glOrtho(-2.0*64/48.0,2.0*64/48.0,-2.0,2.0,0.1,100);
+
+glMatrixMode(GL_MODELVIEW);
+
+glLoadIdentity();
+
+glutLookAt(2.0,2.0,2.0,0.0,0.0,0.0,0.0,1.0,0.0);
+
+glClear(GL_COLOR_BUFFER_BIT);
+
+glColor3d(0,0,0); //draw black color
+
+axis(0.5);
+
+glPushMatrix();
+
+glRotated(90,0,1.0,0);
+
+axis(0.5);
+
+glRotated(-90.0,1,0,0);
+
+axis(0.5);
+
+glPopMatrix();
+
+glPushMatrix();
+
+glColor3d(0,0.5,0.8);
+
+glTranslated(0.5,0.5,0.5); //big cube
+
+glutWireCube(1.0);
+
+glPopMatrix();
+
+glPushMatrix();
+
+glColor3d(0.5,0.5,0.8);
+
+glTranslated(1.0,1.0,0); //big sphere
+
+glutWireSphere(0.25,10,8);
+
+glPopMatrix();
+
+glPushMatrix();
+
+glColor3d(0,0.3,0.7);
+
+glTranslated(1.0,0,1.0); //big cone
+
+glutWireCone(0.2,0.5,10,8);
+
+glPopMatrix();
+
+glPushMatrix();
+
+glColor3d(0,0.1,0.8);
+
+glTranslated(1,1,1); //big teapot
+
+glutWireCube(0.2);
+
+glPopMatrix();
+
+glPushMatrix();
+
+glColor3d(0.8,0.5,0.8);
+
+glTranslated(0,1.0,0); //big torus
+
+glRotated(90.0,1,0,0);
+
+glutWireTorus(0.1,0.3,10,10);
+
+glPopMatrix();
+
+glFlush();
+
+}
+
+Void processspecialkeys(int key, int xx, int yy)
+
+{
+
+Float fraction=0.1f;
+
+Float lx, lz;
+
+Switch(key)
+
+{
+
+case S:
+
+angle -= 0.01f;
+
+lx= sin(angle);
+
+lz =cos(angle);
+
+break;
+
+case W:
+
+angle +=0.01f;
+
+lx=sin(angle);
+
+lz=-cos(angle);
+
+break;
+
+case A:
+
+x +=lx* fraction;
+
+z +=lz* fraction;
+
+break;
+
+Case D:
+
+x-=lx* fraction;
+
+z-=lz* fraction;
+
+break;
+
+}}
+
+lz=sin(angle);
+
+break;
+
+Void main(int argc,char **argv)
+
+{
+
+glutInit(&argc,argv);
+
+glutInitDisplayMode(GLUT-SINGLE | GLUT-RGB);
+
+glutInitWindowSize(640,480);
+
+glutInitWindowPositiom(100,100);
+
+glutCreateWindow(“Transformation Test-wireframes”);
+
+glutDisplayFunc(displayWire);
+
+glutSpecialFun(processpecialkeys);
+
+glClearColor(1.0f,1.0f,1.0f,0.0f);
+
+glViewport(0,0,640,480);
+
+glutMainLoop();
+
+}
